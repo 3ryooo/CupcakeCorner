@@ -24,7 +24,6 @@ struct AddressView: View {
                             let addressItems = [order.name, order.streetAddress, order.city, order.zip]
                             if let encoded = try? JSONEncoder().encode(addressItems) {
                                 UserDefaults.standard.set(encoded, forKey: "addressItems")
-                                print("Address Items kaydedildi.")
                             }
                         }
                 }
