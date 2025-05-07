@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 
 @Observable
@@ -28,6 +29,23 @@ class Order: Codable {
     var streetAddress = ""
     var city = ""
     var zip = ""
+    
+    init() {
+        if let dataName = UserDefaults.standard.data(forKey: "addressItems") {
+            if let decodedName = try? JSONDecoder().decode([String].self, from: dataName) {
+                name = decodedName[0]
+                streetAddress = decodedName[1]
+                city = decodedName[2]
+                zip = decodedName[3]
+                return
+            }
+        }
+        
+        name = ""
+        streetAddress = ""
+        city = ""
+        zip = ""
+    }
     
     var hasValidAddress: Bool {
         if name.trimmingCharacters(in: .whitespaces).isEmpty || streetAddress.trimmingCharacters(in: .whitespaces).isEmpty || city.trimmingCharacters(in: .whitespaces).isEmpty || zip.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -56,6 +74,7 @@ class Order: Codable {
         
         return cost
     }
+    
     
     enum CodingKeys: String, CodingKey {
         case _type = "type"

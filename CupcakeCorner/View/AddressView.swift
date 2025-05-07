@@ -20,6 +20,13 @@ struct AddressView: View {
             Section {
                 NavigationLink("Check out") {
                     CheckoutView(order: order)
+                        .onAppear {
+                            let addressItems = [order.name, order.streetAddress, order.city, order.zip]
+                            if let encoded = try? JSONEncoder().encode(addressItems) {
+                                UserDefaults.standard.set(encoded, forKey: "addressItems")
+                                print("Address Items kaydedildi.")
+                            }
+                        }
                 }
             }
             .disabled(order.hasValidAddress == false)
