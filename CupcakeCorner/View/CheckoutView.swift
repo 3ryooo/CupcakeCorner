@@ -57,12 +57,9 @@ struct CheckoutView: View {
         request.httpMethod = "POST"
         
         do {
-            print("test")
             let (data, _) = try await URLSession.shared.upload(for: request, from: encoded)
             let decodedOrder = try JSONDecoder().decode(Order.self, from: data)
-            print("test2")
             confirmationMessage = "Your order for \(decodedOrder.quantity)x \(Order.types[decodedOrder.type].lowercased()) cupcakes is on its way!"
-            print("test3")
             showingConfirmation = true
         } catch {
             print(error)
